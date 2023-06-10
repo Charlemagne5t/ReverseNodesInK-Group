@@ -1,12 +1,12 @@
 public class Solution {
     private void listPrinter(ListNode head) {
         while (head != null) {
-            System.out.print(head.val + " ");
             head = head.next;
         }
     }
 
     public ListNode reverseKGroup(ListNode head, int k) {
+        if(k == 1) return head;
         ListNode preHead = new ListNode();
         ListNode preHeadForCount = new ListNode();
         preHeadForCount.next = head;
@@ -24,23 +24,20 @@ public class Solution {
 
         ListNode subTail = new ListNode();
         subTail.next = head;
-        listPrinter(preHead.next);
-        System.out.println(" --- new head ----> " + nextHead[0].val);
-        System.out.println("subtail val :" + subTail.next.val);
 
         for (int i = 0; i < iterationsNumber - 1; i++) {
             subTail.next.next = reverse(nextHead[0], k, nextHead, globalTail);
+            subTail.next = globalTail[0];
+            listPrinter(preHead.next);
+            System.out.println();
         }
         if (globalTail[0] != null) {
             globalTail[0].next = nextHead[0];
         }
-        listPrinter(preHead.next);
-        // System.out.println(nextHead[0].val);
         return preHead.next;
     }
 
     private ListNode reverse(ListNode head, int k, ListNode nextHead[], ListNode[] globalTail) {
-
         int i = 0;
         ListNode previous = null;
         ListNode current = head;
